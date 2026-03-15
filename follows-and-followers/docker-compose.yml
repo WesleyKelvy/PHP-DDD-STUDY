@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: follows-and-followers
+    restart: no
+    environment:
+      POSTGRES_USER: wesley
+      POSTGRES_PASSWORD: password@123
+      POSTGRES_DB: followers-proj
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

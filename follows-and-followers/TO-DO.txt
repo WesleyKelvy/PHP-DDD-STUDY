@@ -1,0 +1,14 @@
+To do:
+1: rerun all migrations
+2: Fix user id to string
+
+Undestanded:
+5: should not MercadoPagoSignatureValidator be a helper outside the infra layer?
+No, isso faz parte da camada de infra. Soluçao é criar uma pasta validators e colocar esse arquivo lá.
+
+To Understand:
+1: Understand how Domain/Entity and Model file connect with each other and the logic.
+2: How to implements Domain Events
+
+
+
