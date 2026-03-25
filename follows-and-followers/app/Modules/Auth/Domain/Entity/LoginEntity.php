@@ -43,7 +43,7 @@ final class LoginEntity extends DomainEntity
         return [
             'email'   => $this->credentials->email,
             'password'=> $this->credentials->password,
-            'remeber' => $this->credentials->remember,
+            // 'remember' => $this->credentials->remember,
         ];
     }
 }

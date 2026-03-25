@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\Modules\Auth\Domain\Entity;
 
 use App\Modules\Auth\Domain\Events\RegisterEvent;
+use App\Modules\Auth\Domain\ValueObject\UserSnapshot;
 use App\Shared\Domain\Entity\DomainEntity;
 
 final class UserEntity extends DomainEntity
 {
     public function __construct(
-        public string $email,
-        public string $name,
-        public ?string $id = null,
-        public ?string $password = null,
+        private string $email,
+        private string $name,
+        private ?string $id = null,
+        private ?string $password = null,
     ) {}
 
     public function registerSuccessful(
@@ -26,16 +27,14 @@ final class UserEntity extends DomainEntity
     }
 
     /**
-     * Helper: Parsing camel case to db snake case attributes.
-     *
-     * @return array<string, mixed>
+     * Exporta o estado da Entidade de forma imutável e tipada.
      */
-    public function toPersistenceArray(): array
+    public function toSnapshot(): UserSnapshot
     {
-        return [
-            'name'    => $this->name,
-            'email'   => $this->email,
-            'password'=> $this->password,
-        ];
+        return new UserSnapshot(
+            name: $this->name,
+            email: $this->email,
+            password: $this->password,
+        );
     }
 }

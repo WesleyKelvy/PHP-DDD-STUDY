@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modules\Auth\Domain\Gateway;
 
-use App\Modules\Auth\Domain\Entity\LoginEntity;
+use App\Modules\Auth\Domain\ValueObject\LoginCredentialsValueObject;
 
 interface AuthenticatorGateway
 {
-    public function attempt(LoginEntity $data): bool;
+    public function attempt(LoginCredentialsValueObject $credentials): bool;
 
     public function currentUserEmail(): ?string;
 

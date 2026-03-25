@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Modules\Auth\Application\UseCases;
 
-use App\Modules\Auth\Domain\Entity\LoginEntity;
+use App\Modules\Auth\Domain\Events\LoginEvent;
 use App\Modules\Auth\Domain\Gateway\AuthenticatorGateway;
 use App\Modules\Auth\Domain\ValueObject\LoginCredentialsValueObject;
 use App\Shared\Application\Events\EventDispatcherInterface;
 
-final class LoginUseCase
+final readonly class LoginUseCase
 {
     public function __construct(
         private AuthenticatorGateway $authenticator,
@@ -20,18 +20,18 @@ final class LoginUseCase
         LoginCredentialsValueObject $credentials,
         string $ipAddress,
     ): bool {
-        $loginEntity = new LoginEntity($credentials);
+        $isAuthenticated = $this->authenticator->attempt($credentials);
 
-        $response = $this->authenticator->attempt($loginEntity);
-
-        if ($response) {
-            $loginEntity->loginSuccessful($ipAddress);
-
-            foreach ($loginEntity->pullDomainEvents() as $event) {
-                $this->eventDispatcher->dispatch($event);
-            }
+        if (! $isAuthenticated) {
+            return false;
         }
+        $event = new LoginEvent(
+            email: $credentials->email,
+            ipAddress: $ipAddress,
+        );
 
-        return $response;
+        $this->eventDispatcher->dispatch($event);
+
+        return true;
     }
 }

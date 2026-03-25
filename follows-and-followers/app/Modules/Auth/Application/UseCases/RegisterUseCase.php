@@ -21,8 +21,9 @@ final class RegisterUseCase
         string $ipAddress,
     ): bool {
         $userEntity = UserFactory::createUser(
-            email: $data->email,
             name: $data->name,
+            email: $data->email,
+            password: $data->password,
         );
 
         $response = $this->registerRepository->create($userEntity);

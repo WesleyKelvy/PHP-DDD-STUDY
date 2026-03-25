@@ -12,6 +12,7 @@ use App\Modules\Auth\Domain\ValueObject\LoginCredentialsValueObject;
 use App\Modules\Auth\Domain\ValueObject\RegisterValueObject;
 use App\Modules\Auth\Presentation\Requests\LoginFormRequest;
 use App\Modules\Auth\Presentation\Requests\RegisterRequest;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
@@ -24,6 +25,11 @@ final class AuthController extends Controller
         private LogoutUseCase $logoutUseCase,
         private RegisterUseCase $registerUseCase,
     ) {}
+
+    public function showLoginPage(): View
+    {
+        return view('auth.login');
+    }
 
     /**
      * Called when client submits the payment form.
@@ -85,8 +91,11 @@ final class AuthController extends Controller
                 email: $request->email,
                 password: $request->password,
             );
+            dump($credentials);
 
             $isAuthenticated = $this->loginUseCase->execute($credentials, $request->ip());
+
+            dump($isAuthenticated);
 
             if ($isAuthenticated) {
                 $request->session()->regenerate();

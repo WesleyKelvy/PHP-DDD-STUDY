@@ -7,7 +7,7 @@ namespace App\Modules\Log\Domain\Entity;
 class LogEntity
 {
     public function __construct(
-        public ?int $userId,
+        public ?string $userId,
         public string $action,
         public ?string $entityType,
         public ?int $entityId,
