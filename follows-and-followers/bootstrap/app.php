@@ -16,8 +16,6 @@ return Application::configure(basePath: dirname(__DIR__))
         then: function () {
             // Auth
             Route::middleware('web')
-                ->prefix('auth')
-                ->as('auth.')
                 ->group(base_path('routes/auth.php'));
 
             // Payments (auth required)

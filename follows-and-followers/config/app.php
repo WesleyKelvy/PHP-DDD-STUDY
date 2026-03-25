@@ -88,9 +88,10 @@ return [
     |
     */
 
-    'cipher'        => 'AES-256-CBC',
-    'key'           => env('APP_KEY'),
-    'previous_keys' => [
+    'cipher'         => 'AES-256-CBC',
+    'key'            => env('APP_KEY'),
+    'email_hash_key' => env('EMAIL_HASH_KEY'),
+    'previous_keys'  => [
         ...array_filter(
             explode(',', (string) env('APP_PREVIOUS_KEYS', '')),
         ),
