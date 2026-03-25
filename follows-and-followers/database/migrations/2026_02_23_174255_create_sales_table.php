@@ -14,8 +14,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sales', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->uuid()->primary();
+            $table->uuid('user_id')->constrained();
 
             $table->decimal('amount', 8, 2);
             $table

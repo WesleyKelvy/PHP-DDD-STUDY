@@ -5,26 +5,48 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Crypt;
 
 /**
  * @mixin IdeHelperUser
  */
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
+    use HasUuids; // UUID v7 in Laravel 12
     use Notifiable;
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
-    protected $fillable = ['name', 'email', 'password', 'role'];
+    protected $fillable = ['id', 'name', 'email', 'email_hmac', 'password', 'role'];
+
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = Crypt::encryptString($value);
+        $this->attributes['email_hmac'] = hash_hmac(
+            'sha256',
+            strtolower($value),
+            config('app.email_hash_key'),
+        );
+    }
+
+    public function getEmailAttribute($value)
+    {
+        return Crypt::decryptString($value);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -41,6 +63,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'id'                => 'string',
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
         ];

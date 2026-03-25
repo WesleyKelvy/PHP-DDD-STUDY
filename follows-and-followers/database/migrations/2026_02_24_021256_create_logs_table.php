@@ -14,9 +14,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('logs', function (Blueprint $table) {
-            $table->uuid()->primary();
+            $table->id()->primary();
             $table
-                ->foreignId('user_id')
+                ->string('user_id')
                 ->nullable()
                 ->constrained()
                 ->nullOnDelete();

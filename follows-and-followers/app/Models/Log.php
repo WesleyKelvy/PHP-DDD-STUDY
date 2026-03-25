@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -13,11 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Log extends Model
 {
-    use HasUuids; // UUID v7 in Laravel 12
-
     public $timestamps = false; // only has created_at
-
-    public $incrementing = false;
 
     protected $fillable = [
         'user_id',

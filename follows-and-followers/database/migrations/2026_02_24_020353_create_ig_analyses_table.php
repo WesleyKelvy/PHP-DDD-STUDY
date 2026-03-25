@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('ig_analyses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sale_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->uuid('sale_id')->constrained()->cascadeOnDelete();
+            $table->uuid('user_id')->constrained()->cascadeOnDelete();
 
             // The result: users that don't follow back
-            $table->json('non-followers');
+            $table->json('non_followers');
 
             // Stats snapshot at analysis time
             $table->unsignedInteger('followers_count');
