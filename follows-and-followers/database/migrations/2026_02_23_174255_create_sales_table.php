@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid()->primary();
             $table->uuid('user_id')->constrained();
 
-            $table->decimal('amount', 8, 2);
+            $table->integer('amount_cents');
             $table
                 ->enum('status', [
                     'pending',
