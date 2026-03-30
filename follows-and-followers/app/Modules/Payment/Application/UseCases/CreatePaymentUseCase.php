@@ -27,7 +27,7 @@ final class CreatePaymentUseCase
     ): SaleEntity {
         $rawPayment = $this->paymentGateway->createPixPayment(
             new PixPaymentRequest(
-                userId: (int) $paymentDTO->userId,
+                userId: $paymentDTO->userId,
                 email: $paymentDTO->email,
                 firstName: $paymentDTO->firstName,
                 lastName: $paymentDTO->lastName,
@@ -37,19 +37,22 @@ final class CreatePaymentUseCase
             ),
         );
 
+        // dd($rawPayment);
+
         $paymentData = CreatePaymentMercadoPagoResponseDTO::fromMercadoPago($rawPayment);
+        // dd($paymentData);
 
         $saleEntity = SaleFactory::createPendingFromPix(
             userId: $paymentDTO->userId,
-            amount: (float) config('mercadopago.price'),
-            mpPaymentId: (string) $paymentData->id,
+            amount: config('mercadopago.price'),
+            mpPaymentId: $paymentData->id,
             mpPaymentData: $paymentData->pixTransactionData,
         );
 
         $sale = $this->saleRepository->create($saleEntity);
 
         $sale->markAsCreated(
-            mpPaymentId: (string) $paymentData->id,
+            mpPaymentId: $saleEntity->id,
             status: $paymentData->status,
             ipAddress: $ipAddress,
         );

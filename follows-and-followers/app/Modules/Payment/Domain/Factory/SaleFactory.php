@@ -10,16 +10,16 @@ final class SaleFactory
 {
     public static function createPendingFromPix(
         string $userId,
-        float $amount,
-        string $mpPaymentId,
+        float|string $amount,
+        int|string $mpPaymentId,
         ?array $mpPaymentData,
     ): SaleEntity {
         return new SaleEntity(
             id: null,
             userId: $userId,
-            amount: $amount,
+            amount: (float) $amount,
             status: 'pending',
-            mpPaymentId: $mpPaymentId,
+            mpPaymentId: (string) $mpPaymentId,
             mpPaymentData: $mpPaymentData,
         );
     }

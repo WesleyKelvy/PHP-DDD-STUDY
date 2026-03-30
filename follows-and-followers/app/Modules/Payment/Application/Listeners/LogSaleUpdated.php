@@ -16,7 +16,7 @@ final class LogSaleUpdated
     public function handle(SaleApprovedEvent|SaleFailedEvent $event): void
     {
         $this->writeLog->execute(new CreateLogDTO(
-            action: 'sale.updated.' . $event->status,
+            action: 'sale.updated.' . $event->status . '&credit.created',
             userId: $event->sale->userId,
             entityType: 'Sale',
             entityId: $event->sale->id,

@@ -7,7 +7,7 @@ namespace App\Modules\Payment\Domain\ValueObject;
 final readonly class PixPaymentRequest
 {
     public function __construct(
-        public int $userId,
+        public string $userId,
         public string $email,
         public string $firstName,
         public string $lastName,
