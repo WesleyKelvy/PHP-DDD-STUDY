@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Credit\Domain;
+
 use App\Modules\Credit\Domain\Entity\CreditEntity;
 
 final class CreditEntityCollection

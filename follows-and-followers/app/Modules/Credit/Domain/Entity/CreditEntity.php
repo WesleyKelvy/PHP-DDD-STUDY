@@ -13,13 +13,13 @@ final class CreditEntity extends DomainEntity
      * @param  array<string, mixed>|null  $mpPaymentData
      */
     public function __construct(
-        public ?string $id,
-        public string $userId,
-        public string $saleId,
-        public int $total,
-        public int $used,
-        public int $reserved,
-        public ?DateTime $expiresAt,
+        private ?string $id,
+        private string $userId,
+        private string $saleId,
+        private int $total,
+        private int $used,
+        private int $reserved,
+        private ?DateTime $expiresAt,
     ) {}
 
     public function available(): int
@@ -63,11 +63,12 @@ final class CreditEntity extends DomainEntity
     public function toPersistenceArray(): array
     {
         return [
-            'user_id'  => $this->userId,
-            'sale_id'  => $this->saleId,
-            'total'    => $this->total,
-            'used'     => $this->used,
-            'reserved' => $this->reserved,
+            'user_id'   => $this->userId,
+            'sale_id'   => $this->saleId,
+            'total'     => $this->total,
+            'used'      => $this->used,
+            'reserved'  => $this->reserved,
+            'expires_at'=> $this->expiresAt ?? null,
         ];
     }
 }
