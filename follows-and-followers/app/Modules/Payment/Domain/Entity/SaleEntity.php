@@ -15,12 +15,12 @@ final class SaleEntity extends DomainEntity
      * @param  array<string, mixed>|null  $mpPaymentData
      */
     public function __construct(
-        public ?string $id,
-        public string $userId,
-        public float $amount,
-        public string $status,
-        public string $mpPaymentId,
-        public ?array $mpPaymentData,
+        private ?string $id,
+        private string $userId,
+        private float $amount,
+        private string $status,
+        private string $mpPaymentId,
+        private ?array $mpPaymentData,
     ) {}
 
     public function markAsCreated(
@@ -48,7 +48,9 @@ final class SaleEntity extends DomainEntity
         $this->status = 'approved';
 
         $this->recordEvent(new SaleApprovedEvent(
-            $this,
+            $this->id,
+            $this->userId,
+            $this->amount,
             $mpPaymentId,
             $this->status,
             $ipAddress,
@@ -65,7 +67,8 @@ final class SaleEntity extends DomainEntity
         $this->status = 'failed';
 
         $this->recordEvent(new SaleFailedEvent(
-            $this,
+            $this->id,
+            $this->userId,
             $mpPaymentId,
             $this->status,
             $ipAddress,

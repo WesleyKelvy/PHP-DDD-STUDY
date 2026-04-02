@@ -17,13 +17,13 @@ final class LogSaleUpdated
     {
         $this->writeLog->execute(new CreateLogDTO(
             action: 'sale.updated.' . $event->status . '&credit.created',
-            userId: $event->sale->userId,
+            userId: $event->userId,
             entityType: 'Sale',
-            entityId: $event->sale->id,
+            entityId: $event->saleId,
             ipAddress: $event->ipAddress,
             userAgent: null,
             payload: [
-                'sale_id'       => $event->sale->id,
+                'sale_id'       => $event->saleId,
                 'mp_payment_id' => $event->mpPaymentId,
                 'status'        => $event->status,
             ],

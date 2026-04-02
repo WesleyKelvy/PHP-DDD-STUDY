@@ -10,6 +10,7 @@ use App\Modules\Auth\Application\Listeners\RegisterSuccessful;
 use App\Modules\Auth\Domain\Events\LoginEvent;
 use App\Modules\Auth\Domain\Events\LogoutEvent;
 use App\Modules\Auth\Domain\Events\RegisterEvent;
+use App\Modules\Credit\Application\Listeners\CreateCreditListener;
 use App\Modules\Log\Domain\Repo\LogRepository;
 use App\Modules\Log\Infra\Persistence\EloquentLogRepository;
 use App\Modules\Payment\Application\Events\WebhookSaleNotFoundEvent;
@@ -47,6 +48,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // --- Events ---
+
+        // Credit
+        Event::listen(
+            SaleApprovedEvent::class,
+            CreateCreditListener::class,
+        );
 
         // Payment
         Event::listen(
